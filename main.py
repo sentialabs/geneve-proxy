@@ -24,7 +24,6 @@ def main():
         socket.IPPROTO_UDP
     )
 
-
     # Create a bind socket to let the outside world know
     # we're listening on `UDP_PORT`. Packets received on this
     # socket will be ignored.
