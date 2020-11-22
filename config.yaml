@@ -1,0 +1,76 @@
+######################
+## Outbound Traffic ##
+######################
+
+outbound:
+  # If `drop_all_traffic` is set to true, all traffic originating from
+  # the internet will be dropped.
+  drop_all_traffic: False
+  
+  #####################
+  ## Transport Layer ##
+  #####################
+
+  # If `allowed_transport_protocols` is set and has values, the proxy
+  # will drop any outbound flows using transport protocols not present in the list.
+  allowed_transport_protocols:
+    - 0x0006 # TCP
+    - 0x0011 # UDP
+
+  # If `blocked_transport_protocols` is set and has values, the proxy
+  # will drop any outbound flows using transport protocols present in the list.
+  blocked_transport_protocols:
+    - 0x0001 # ICMP
+  
+  #####################
+  ## Application Layer ##
+  #####################
+
+  # If `allowed_application_ports` is set and has values, the proxy
+  # will drop any outbound flows using application protocols not present in the list.
+  allowed_application_ports:
+    - 443 # HTTPS
+    - 80 # HTTP
+
+  # If `blocked_application_ports` is set and has values, the proxy
+  # will drop any outbound flows using application protocols present in the list.
+  blocked_application_ports:
+    - 53 # DNS
+
+######################
+## Inbound Traffic ##
+######################
+
+inbound:
+  # If `drop_all_traffic` is set to true, all traffic originating from
+  # local networks will be dropped.
+  drop_all_traffic: False
+  
+  #####################
+  ## Transport Layer ##
+  #####################
+
+  # If `allowed_transport_protocols` is set and has values, the proxy
+  # will drop any inbound flows using transport protocols not present in the list.
+  allowed_transport_protocols:
+    - 0x0001 # ICMP
+    - 0x0006 # TCP
+
+  # If `blocked_transport_protocols` is set and has values, the proxy
+  # will drop any inbound flows using transport protocols present in the list.
+  blocked_transport_protocols:
+    - 0x0011 # UDP
+  
+  #####################
+  ## Application Layer ##
+  #####################
+
+  # If `allowed_application_ports` is set and has values, the proxy
+  # will drop any inbound flows using application protocols not present in the list.
+  allowed_application_ports:
+    - 443 # HTTPS
+
+  # If `blocked_application_ports` is set and has values, the proxy
+  # will drop any inbound flows using application protocols present in the list.
+  blocked_application_ports:
+    - 80 # HTTP
