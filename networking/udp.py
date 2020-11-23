@@ -28,13 +28,13 @@ class UdpHeader:
         self.length = udp_header_second_word[0]
         self.checksum = udp_header_second_word[1]
 
-    def swap_source_dest(self):
+    def swap_source_dest(self) -> None:
         """Store the source port in the destination field and vice versa."""
         tmp = self.source_port
         self.source_port = self.destination_port
         self.destination_port = tmp
 
-    def as_bytes(self, zero_checksum=False) -> bytes:
+    def as_bytes(self, zero_checksum: bool = False) -> bytes:
         """Return the byte representation of this IPv4 header."""
         byte_array = bytearray(2 * 4)
         pack_into('!HH', byte_array, 0,
@@ -47,7 +47,7 @@ class UdpHeader:
         )
         return byte_array
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Generate a string representation for this IPv4 header."""
         return (
             f'UDP header with source port {self.source_port} and destination '
@@ -56,7 +56,7 @@ class UdpHeader:
         )
 
     @classmethod
-    def calculate_checksum_for_bytes(cls, header_bytes):
+    def calculate_checksum_for_bytes(cls, header_bytes: bytes) -> int:
         """Calculate the checksum for the provided header."""
          # pylint:disable=invalid-name
         def carry_around_add(a, b):

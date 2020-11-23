@@ -62,7 +62,7 @@ class TcpHeader:
         if option_word_count:
             self.options = header_bytes[20:(20 + option_word_count * 4)]
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Generate a string representation for this IPv4 header."""
         return (
             f'TCP header with source port {self.source_port} and destination '

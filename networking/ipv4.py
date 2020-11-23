@@ -56,7 +56,7 @@ class Ipv4Header:
         if option_word_count:
             self.options = header_bytes[20:(20 + option_word_count * 4)]
 
-    def swap_source_dest(self):
+    def swap_source_dest(self) -> None:
         """Store the source IP in the destination field and vice versa."""
         tmp = self.source_ip
         self.source_ip = self.destination_ip
@@ -96,7 +96,7 @@ class Ipv4Header:
 
         return byte_array
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Generate a string representation for this IPv4 header."""
         human_source_ip = ipaddress.IPv4Address(self.source_ip)
         human_destination_ip = ipaddress.IPv4Address(self.destination_ip)
@@ -108,12 +108,12 @@ class Ipv4Header:
         )
 
     @classmethod
-    def verify_checksum(cls, header_bytes):
+    def verify_checksum(cls, header_bytes: bytes) -> bool:
         """Verify the IPv4 checksum for the provided header."""
         return cls.calculate_checksum_for_bytes(header_bytes) == 0
 
     @classmethod
-    def calculate_checksum_for_bytes(cls, header_bytes):
+    def calculate_checksum_for_bytes(cls, header_bytes: bytes) -> int:
         """Calculate the checksum for the provided header."""
          # pylint:disable=invalid-name
         def carry_around_add(a, b):

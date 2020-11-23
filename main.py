@@ -16,7 +16,7 @@ UDP_PORT = 6081
 HEALTHCHECK_PORT = 80
 IP_RECVERR = 11
 
-def main():
+def main() -> None:
     """Run main loop. Listens for new connections."""
     geneve_sock = socket.socket(
         socket.AF_INET,
@@ -62,7 +62,7 @@ def main():
                 conn.recv(65565)
                 conn.send(hc_response().encode('utf-8'))
 
-def hc_response():
+def hc_response() -> str:
     """Generate a health check response."""
     response = 'HTTP/1.1 200 OK\n'
     response_body = 'Healthy'
@@ -78,7 +78,7 @@ def hc_response():
     return response
 
 
-def parse_udp_packet(data, flow_stack, packet_inspector):
+def parse_udp_packet(data: bytes, flow_stack: FlowStack, packet_inspector: PacketInspector) -> None:
     """Read the data from the provided UDP packet."""
     # Outer IPv4 header
     outer_ipv4_header = Ipv4Header(data)

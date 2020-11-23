@@ -6,16 +6,16 @@ from networking.tcp import TcpHeader
 from networking.udp import UdpHeader
 from networking.ipv4 import Ipv4Header
 from .proxy_config import ProxyConfig
-from .flow_stack import Flow
+from .flow_stack import Flow, FlowStack
 
 class PacketInspector:
     """PacketInspector class."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Construct a new PacketInspector."""
         self._config = ProxyConfig()
 
-    def assess_packet(self, flow_stack, flow, data) -> bool:
+    def assess_packet(self, flow_stack: FlowStack, flow: Flow, data: bytes) -> bool:
         """Assess whether a packet should be allowed."""
         inner_ipv4_header = self._assess_internet_layer(flow_stack, flow, data)
         if inner_ipv4_header is False:
@@ -26,7 +26,7 @@ class PacketInspector:
 
         return self._assess_transport_layer(flow_stack, flow, data, inner_ipv4_header)
 
-    def _assess_internet_layer(self, flow_stack, flow, data):
+    def _assess_internet_layer(self, flow_stack: FlowStack, flow: Flow, data: bytes) -> bool:
         """Assess the internet layer (IPv4)."""
         inner_ipv4_header = Ipv4Header(data)
         source_address = ipaddress.IPv4Address(inner_ipv4_header.source_ip)
@@ -96,7 +96,13 @@ class PacketInspector:
 
         return inner_ipv4_header
 
-    def _assess_transport_layer(self, flow_stack, flow, data, inner_ipv4_header):
+    def _assess_transport_layer(
+        self,
+        flow_stack: FlowStack,
+        flow: Flow,
+        data: bytes,
+        inner_ipv4_header: Ipv4Header
+    ) -> bool:
         """Assess the transport layer (TCP or UDP)."""
         if flow.application_allowed is True:
             return True

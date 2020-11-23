@@ -33,7 +33,7 @@ class GeneveTunnelOptions:
         self.length = length
         self.data = data
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Generate a string representation for this Geneve tunnel option."""
         return (
             f'Geneve tunnel option with {self.length} words of data. '
@@ -121,7 +121,7 @@ class GeneveHeader:
                 data=data
             ))
 
-    def get_tunnel_option(self, option_class, option_type):
+    def get_tunnel_option(self, option_class: int, option_type: int) -> GeneveTunnelOptions:
         """Retrieve tunnel option by class and type."""
         for option in self.tunnel_options:
             if (
@@ -131,7 +131,7 @@ class GeneveHeader:
                 return option
         return None
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Generate a string representation for this Geneve header."""
         return (
             f'Geneve header with {self.opt_len} words of options and a '

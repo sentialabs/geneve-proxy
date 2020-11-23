@@ -5,7 +5,7 @@ import yaml
 class ProxyConfig:
     """ProxyConfig class."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Construct a new ProxyConfig."""
         config_file = open("config.yaml")
         config = yaml.load(config_file, Loader=yaml.FullLoader)

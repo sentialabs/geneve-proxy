@@ -8,12 +8,12 @@ class Flow:
 
     def __init__(
         self,
-        cookie,
-        direction_allowed,
-        transport_allowed,
-        application_allowed,
-        direction
-    ):
+        cookie: bytes,
+        direction_allowed: bool,
+        transport_allowed: bool,
+        application_allowed: bool,
+        direction: int
+    ) -> None:
         """Construct a new Flow."""
         self.cookie = cookie
         self.direction_allowed = direction_allowed
@@ -21,7 +21,7 @@ class Flow:
         self.application_allowed = application_allowed
         self.direction = direction
 
-    def is_allowed(self):
+    def is_allowed(self) -> bool:
         """
         Return whether a Flow is allowed.
 
@@ -44,7 +44,7 @@ class Flow:
 
         return None
 
-    def dir_string(self):
+    def dir_string(self) -> str:
         """Return a string representation of this flow's direction."""
         dir_string = 'Unknown'
         if self.direction == self.DIR_INBOUND:
@@ -53,7 +53,7 @@ class Flow:
             dir_string = 'Outbound'
         return dir_string
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return a string representation of this Flow."""
         return (
             f'Flow with direction {self.dir_string()}. '
@@ -67,18 +67,18 @@ class FlowStack:
 
     stack = {}
 
-    def __init__(self, max_size = 1024):
+    def __init__(self, max_size: int = 1024) -> None:
         """Construct a new FlowStack."""
         self.max_size = max_size
 
     def set_flow(
         self,
-        cookie,
-        direction_allowed = None,
-        transport_allowed = None,
-        application_allowed = None,
-        direction = None,
-    ):
+        cookie: bytes,
+        direction_allowed: bool = None,
+        transport_allowed: bool = None,
+        application_allowed: bool = None,
+        direction: int = None,
+    ) -> Flow:
         """Push a new flow onto the stack or update an existing flow."""
         flow = self.get_flow(cookie)
         if flow is None:
@@ -99,14 +99,14 @@ class FlowStack:
         self.trim_stack()
         return flow
 
-    def get_flow(self, cookie):
+    def get_flow(self, cookie: bytes) -> Flow:
         """Return the flow's status if it exists, None if it doesn't."""
         try:
             return self.stack[cookie]
         except KeyError:
             return None
 
-    def trim_stack(self):
+    def trim_stack(self) -> None:
         """Drop the oldest flows to resize the stack to max size."""
         if len(self.stack) > self.max_size:
             self.stack = self.stack[-self.max_size:]
