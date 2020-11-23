@@ -57,6 +57,8 @@ def main() -> None:
                 # If the reponse is not None, it should be returned to the GWLB.
                 if response:
                     selected_sock.sendto(response, addr)
+            if selected_sock == bind_sock:
+                selected_sock.recvfrom(65565) # Drop packets on the bind_sock
             if selected_sock == health_check_socket:
                 conn, _ = selected_sock.accept()
                 conn.recv(65565)
