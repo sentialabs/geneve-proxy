@@ -66,6 +66,7 @@ class FlowStack:
     """FlowStack class."""
 
     stack = {}
+    cookies = []
 
     def __init__(self, max_size: int = 1024) -> None:
         """Construct a new FlowStack."""
@@ -85,6 +86,7 @@ class FlowStack:
             flow = Flow(
                 cookie, direction_allowed, transport_allowed, application_allowed, direction
             )
+            self.cookies.append(cookie)
         else:
             if direction_allowed is not None:
                 flow.direction_allowed = direction_allowed
@@ -107,6 +109,6 @@ class FlowStack:
             return None
 
     def trim_stack(self) -> None:
-        """Drop the oldest flows to resize the stack to max size."""
+        """Drop the oldest flow to resize the stack to max size."""
         if len(self.stack) > self.max_size:
-            self.stack = self.stack[-self.max_size:]
+            self.stack.pop(self.cookies.pop(0))
